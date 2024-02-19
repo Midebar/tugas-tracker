@@ -1,5 +1,37 @@
-{%block content%}
-<h2>App Name: {{content.app_name}}</h2>
-<h3>Name: {{content.name}}</h3>
-<h4>Class: {{content.class}}</h4>
-{%endblock%}
+{% extends 'base_template.html' %}
+
+{% block title %}
+Tugas Tracker
+{% endblock title %}
+
+{%block content %}
+<h2>App Name: {{identifier.app_name}}</h2>
+<h3>Name: {{identifier.name}}</h3>
+<h4>Class: {{identifier.class}}</h4>
+
+<table>
+    <tr>
+      <th>Name</th>
+      <th>Amount</th>
+      <th>Description</th>
+      <th>Date Added</th>
+    </tr>
+  
+    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini
+    {%endcomment %} {% for book in books %}
+    <tr>
+      <td>{{book.name}}</td>
+      <td>{{book.page}}</td>
+      <td>{{book.description}}</td>
+      <td>{{book.date_added}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  
+  <br />
+  
+  <a href="{% url 'main:create_item' %}">
+    <button>Add New Item</button>
+  </a>
+
+{% endblock item %}
