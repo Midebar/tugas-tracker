@@ -24,7 +24,7 @@ def create_item(request):
         return redirect('main:main')
 
     context = {'form': form}
-    return render(request, "create_book.html", context)
+    return render(request, "create_item.html", context)
 
 def show_xml(request):
     data = Item.objects.all()

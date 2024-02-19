@@ -1,4 +1,4 @@
-{% extends 'base_template.html' %}
+{% extends "base_template.html" %}
 
 {% block title %}
 Tugas Tracker
@@ -17,13 +17,12 @@ Tugas Tracker
       <th>Date Added</th>
     </tr>
   
-    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini
-    {%endcomment %} {% for book in books %}
+    {% for item in items %}
     <tr>
-      <td>{{book.name}}</td>
-      <td>{{book.page}}</td>
-      <td>{{book.description}}</td>
-      <td>{{book.date_added}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.amount}}</td>
+      <td>{{item.description}}</td>
+      <td>{{item.date_added}}</td>
     </tr>
     {% endfor %}
   </table>
@@ -34,4 +33,4 @@ Tugas Tracker
     <button>Add New Item</button>
   </a>
 
-{% endblock item %}
+{% endblock content %}
