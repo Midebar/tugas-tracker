@@ -8,6 +8,7 @@ Tugas Tracker
 <h2>App Name: {{identifier.app_name}}</h2>
 <h3>Name: {{identifier.name}}</h3>
 <h4>Class: {{identifier.class}}</h4>
+<h5>Sesi terakhir login:{{identifier.last_login}}</h5>
 
 <table>
     <tr>
@@ -23,6 +24,7 @@ Tugas Tracker
       <td>{{item.amount}}</td>
       <td>{{item.description}}</td>
       <td>{{item.date_added}}</td>
+      <td>{{item.deadline}}</td>
     </tr>
     {% endfor %}
   </table>
@@ -31,6 +33,10 @@ Tugas Tracker
   
   <a href="{% url 'main:create_item' %}">
     <button>Add New Item</button>
+  </a>
+
+  <a href="{% url 'main:logout' %}">
+    <button>Logout</button>
   </a>
 
 {% endblock content %}
