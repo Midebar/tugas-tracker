@@ -4,6 +4,17 @@
 Tugas Tracker
 {% endblock title %}
 
+{% block head %}
+<style>
+th, td {
+  padding: 5px;
+  border-color: black;
+  border-radius: 3px;
+  border-style: double;
+}
+</style>
+{% endblock head%}
+
 {%block content %}
 <h2>App Name: {{identifier.app_name}}</h2>
 <h3>Name: {{identifier.name}}</h3>
@@ -16,6 +27,7 @@ Tugas Tracker
       <th>Amount</th>
       <th>Description</th>
       <th>Date Added</th>
+      <th>Deadline</th>
     </tr>
   
     {% for item in items %}
