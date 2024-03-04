@@ -15,16 +15,17 @@ from .forms import ItemForm
 @login_required(login_url='/login')
 def main(request):
     items = Item.objects.filter(user=request.user)
-
+    last_login = request.COOKIES["last_login"] if request.user.is_authenticated else None
     identifier={
         "app_name" : "Tugas Tracker",
         "name": request.user.username,
         "class": "A",
-        "last_login": request.COOKIES["last_login"],
+        "last_login": last_login,
     }
 
     return render(request, "main_landingpage.html", {"identifier":identifier, "items":items})
 
+@login_required(login_url='/login')
 def create_item(request):
     form = ItemForm(request.POST or None)
 
@@ -36,6 +37,28 @@ def create_item(request):
 
     context = {'form': form}
     return render(request, "create_item.html", context)
+
+@login_required(login_url='/login')
+def edit_item(request, id):
+    item = Item.objects.get(pk = id)
+
+    form = ItemForm(request.POST or None, instance=item)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:main'))
+
+    context = {'form': form}
+    return render(request, "edit_item.html", context)
+
+@login_required(login_url='/login')
+def delete_item(request, id):
+    # Get data berdasarkan ID
+    item = Item.objects.get(pk = id)
+    # Hapus data
+    item.delete()
+    # Kembali ke halaman awal
+    return HttpResponseRedirect(reverse('main:main'))
 
 def show_xml(request):
     data = Item.objects.all()

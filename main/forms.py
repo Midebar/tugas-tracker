@@ -4,13 +4,8 @@ from .models import Item
 class ItemForm(ModelForm):
     class Meta:
         model = Item
-        fields = [
-            "name",
-            "amount",
-            "description",
-            "deadline",
-        ]
-
+        fields = "__all__"
+        exclude = ("user",)
         widgets = {
             'deadline':TextInput(attrs={'type':'datetime-local'}),
         }
