@@ -1,6 +1,10 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Book Tracker</a>
+      <a class="navbar-brand" href="/">{% include 'calendar_icon.html' %}</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -8,10 +12,10 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           {% with app_name=request.resolver_match.app_name url_name=request.resolver_match.url_name %}
           <li class="nav-item">
-            <a class="nav-link {% if app_name == 'main' and url_name == 'main' %}active{% endif %}" href="{% url 'main:main' %}">Home</a>
+            <a class="nav-link {% if app_name == 'main' and url_name == 'main' %}active custom_li{% endif %}" href="{% url 'main:main' %}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if app_name == 'main' and url_name == 'create_item' %}active{% endif %}" href="{% url 'main:create_item' %}">Add a Book</a>
+            <a class="nav-link {% if app_name == 'main' and url_name == 'create_item' %}active custom_li{% endif %}" href="{% url 'main:create_item' %}">Add a Task</a>
           </li>
           <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -29,10 +33,9 @@
           </li> -->
           {% endwith %}
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <a href="{% url 'main:logout' %}">
+          <button type="button" class="btn btn-outline-primary">Logout</button>
+        </a>
       </div>
     </div>
   </nav>

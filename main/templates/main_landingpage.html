@@ -21,42 +21,34 @@ th, td {
 <h4>Class: {{identifier.class}}</h4>
 <h5>Sesi terakhir login:{{identifier.last_login}}</h5>
 
-<table>
-    <tr>
-      <th>Name</th>
-      <th>Amount</th>
-      <th>Description</th>
-      <th>Date Added</th>
-      <th>Deadline</th>
-    </tr>
-  
-    {% for item in items %}
-    <tr>
-      <td>{{item.name}}</td>
-      <td>{{item.amount}}</td>
-      <td>{{item.description}}</td>
-      <td>{{item.date_added}}</td>
-      <td>{{item.deadline}}</td>
-      <td>
-        <a href="{% url 'main:edit_item' item.pk %}">
+<div class="card-box">
+  {% for item in items %}
+  <div class="card">
+    <div class="card-content">
+      <h5 class="card-title">Name: {{item.name}}</h1> 
+      <h5 class="card-page">Page: {{item.amount}}</h4>
+      <h5>Date Added: {{item.date_added}}</h5>
+      <h5>Deadline: {{item.deadline}}</h5>
+      <p class="card-description">Description: {{item.description}}</p>
+      <div class="card-buttons-place">
+        <div class="card-buttons">
+          <a href="{% url 'main:edit_item' item.pk %}">
             <button type="button" class="btn btn-primary">
-                Edit
+              Edit
             </button>
-        </a>
-        <a href="{% url 'main:delete_item' item.pk %}">
-              <button type="button" class="btn btn-danger">
-                  Delete
-              </button>
           </a>
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
-  
-  <br />
-
-  <a href="{% url 'main:logout' %}">
-    <button type="button" class="btn btn-outline-primary">Logout</button>
-  </a>
+        </div>
+        <div class="card-buttons">
+          <a href="{% url 'main:delete_item' item.pk %}">
+            <button type="button" class="btn btn-danger">
+              Delete
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 
 {% endblock content %}
