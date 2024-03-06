@@ -1,19 +1,14 @@
 {% extends "base_template.html" %}
 
+{% load static %}
+
 {% block title %}
 Tugas Tracker
 {% endblock title %}
 
 {% block head %}
-<style>
-th, td {
-  padding: 5px;
-  border-color: black;
-  border-radius: 3px;
-  border-style: double;
-}
-</style>
-{% endblock head%}
+<link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+{% endblock head %}
 
 {%block content %}
 <h2>App Name: {{identifier.app_name}}</h2>
@@ -22,33 +17,53 @@ th, td {
 <h5>Sesi terakhir login:{{identifier.last_login}}</h5>
 
 <div class="card-box">
-  {% for item in items %}
-  <div class="card">
-    <div class="card-content">
-      <h5 class="card-title">Name: {{item.name}}</h1> 
-      <h5 class="card-page">Page: {{item.amount}}</h4>
-      <h5>Date Added: {{item.date_added}}</h5>
-      <h5>Deadline: {{item.deadline}}</h5>
-      <p class="card-description">Description: {{item.description}}</p>
-      <div class="card-buttons-place">
-        <div class="card-buttons">
-          <a href="{% url 'main:edit_item' item.pk %}">
-            <button type="button" class="btn btn-primary">
-              Edit
-            </button>
-          </a>
-        </div>
-        <div class="card-buttons">
-          <a href="{% url 'main:delete_item' item.pk %}">
-            <button type="button" class="btn btn-danger">
-              Delete
-            </button>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
-{% endfor %}
+
+<script>
+  async function getItems() {
+    let url = "{% url 'main:show_json' %}"
+    const res = await fetch(url)
+    return await res.json()
+  }
+  
+  async function refreshItems() {
+    const items = await getItems()
+    let htmlString = ""
+    items.forEach((item) => {
+      const editUrl = `{% url 'main:edit_item' 0 %}`.replace('0', item.pk);
+      const deleteUrl = `{% url 'main:delete_item' 0 %}`.replace('0', item.pk);
+      htmlString += `
+      <div class="card">
+        <div class="card-content">
+          <h5 class="card-title">Name: ${item.fields.name}</h1> 
+          <h5 class="card-page">Page: ${item.fields.amount}</h4>
+          <h5>Date Added: ${item.fields.date_added}</h5>
+          <h5>Deadline: ${item.fields.deadline}</h5>
+          <p class="card-description">Description: ${item.fields.description}</p>
+          <div class="card-buttons-place">
+            <div class="card-buttons">
+              <a href="${editUrl}">
+                <button type="button" class="btn btn-primary">
+                  Edit
+                </button>
+              </a>
+            </div>
+            <div class="card-buttons">
+              <a href="${deleteUrl}">
+                <button type="button" class="btn btn-danger">
+                  Delete
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>` 
+    })
+    return htmlString;
+  }
+  document.addEventListener("DOMContentLoaded", async function() {
+    document.querySelector(".card-box").innerHTML = await refreshItems();
+  });
+  </script>
 
 {% endblock content %}

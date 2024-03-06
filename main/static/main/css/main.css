@@ -2,6 +2,10 @@
     font-weight: bold;
 }
 
+a:hover {
+    cursor:pointer;
+}
+
 .icon{
     fill:darkgoldenrod
 }
