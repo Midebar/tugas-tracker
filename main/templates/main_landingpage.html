@@ -25,6 +25,12 @@ Tugas Tracker
     const res = await fetch(url)
     return await res.json()
   }
+
+  async function updateItems(){
+    let url = "{% url 'main:show_json' %}"
+    const res = await fetch(url)
+    document.querySelector(".card-box").innerHTML = await refreshItems()
+  }
   
   async function refreshItems() {
     const items = await getItems()
