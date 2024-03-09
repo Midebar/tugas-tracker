@@ -1,10 +1,10 @@
-import datetime
-
+import datetime, json
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -15,15 +15,33 @@ from .forms import ItemForm
 
 @login_required(login_url='/login')
 def main(request):
-    items = Item.objects.filter(user=request.user)
-    last_login = request.COOKIES["last_login"] if request.user.is_authenticated else None
-    identifier={
-        "app_name" : "Tugas Tracker",
-        "name": request.user.username,
+    user = request.user
+    last_login = user.last_login
+    items = Item.objects.filter(user=user)
+
+    # Convert datetime fields in items queryset to formatted strings
+    formatted_items = []
+    for item in items:
+        formatted_item = {
+            'id': item.id,
+            'name': item.name,
+            'amount': item.amount,
+            'description': item.description,
+            'date_added': item.date_added.strftime("%B %d, %Y"),
+            'deadline': item.deadline.strftime("%B %d, %Y, %I:%M %p"),
+        }
+        formatted_items.append(formatted_item)
+
+    identifier = {
+        "app_name": "Tugas Tracker",
+        "name": user.username,
         "class": "A",
-        "last_login": last_login,
+        "last_login": last_login.strftime("%B %d, %Y, %I:%M %p"),
     }
 
+    # Encode the formatted items queryset to JSON
+    items_json = json.dumps(formatted_items)
+    items = items_json
     return render(request, "main_landingpage.html", {"identifier":identifier, "items":items})
 
 @login_required(login_url='/login')

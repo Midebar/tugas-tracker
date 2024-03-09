@@ -33,18 +33,33 @@ Tugas Tracker
   }
   
   async function refreshItems() {
-    const items = await getItems()
+    const items = await getItems();
+    console.log(items)
     let htmlString = ""
     items.forEach((item) => {
+      const deadlineDate = new Date(item.fields.deadline);
+        const formattedDeadline = deadlineDate.toLocaleString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+        });
+        const dateAddedDate = new Date(item.fields.date_added);
+        const formattedDateAdded = dateAddedDate.toLocaleString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+        });
       const editUrl = `{% url 'main:edit_item' 0 %}`.replace('0', item.pk);
       const deleteUrl = `{% url 'main:delete_item' 0 %}`.replace('0', item.pk);
       htmlString += `
       <div class="card">
         <div class="card-content">
           <h5 class="card-title">Name: ${item.fields.name}</h1> 
-          <h5 class="card-page">Page: ${item.fields.amount}</h4>
-          <h5>Date Added: ${item.fields.date_added}</h5>
-          <h5>Deadline: ${item.fields.deadline}</h5>
+          <h5 class="card-title">Page: ${item.fields.amount}</h4>
+          <h5 class="card-date">Date Added: ${formattedDateAdded}</h5>
+          <h5 class="card-date">Deadline: ${formattedDeadline}</h5>
           <p class="card-description">Description: ${item.fields.description}</p>
           <div class="card-buttons-place">
             <div class="card-buttons">

@@ -20,7 +20,7 @@ a:hover {
     padding: 15px;
     margin: 10px;
     width: 350px;
-    height: 350px; 
+    height: 370px; 
     overflow: hidden; 
     float: left;
 }
@@ -29,6 +29,7 @@ a:hover {
     height: calc(100%);
     overflow: inherit;
     text-overflow: ellipsis ellipsis;
+    margin-bottom: 10px;
 }
 
 .card-title{
@@ -39,24 +40,26 @@ a:hover {
     text-overflow: inherit;
 }
 
-.card-page{
+.card-date{
     width: calc(95%);
     height: calc(10%);
-    white-space: nowrap;
     overflow: inherit;
     text-overflow: inherit;
+    white-space: collapse balance;
 }
 
 .card-description{
     white-space: collapse balance;
     width: calc(95%);
-    height: calc(31%);
+    height: calc(26%);
     overflow: inherit;
     text-overflow: inherit;
     mask-image: linear-gradient(180deg, #000 60%, transparent);
 }
 
 .card-buttons-place{
+    width: calc(95%);
+    height: calc(14%);
     float: inherit;
     display: flex;
     justify-content: flex-start;
