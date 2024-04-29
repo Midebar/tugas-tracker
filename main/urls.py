@@ -3,7 +3,7 @@ from .views import (
     main, create_item, edit_item, delete_item, create_item_ajax,
     show_json, show_json_by_id, 
     show_xml, show_xml_by_id, 
-    register, login_user, logout_user)
+    register, login_user, logout_user, create_item_flutter)
 
 app_name = "main"
 
@@ -20,4 +20,5 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
+    path('create-flutter/', create_item_flutter, name='create_book_flutter'),
 ]

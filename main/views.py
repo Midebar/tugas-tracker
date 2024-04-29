@@ -1,10 +1,9 @@
 import datetime, json
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, JsonResponse
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -72,11 +71,8 @@ def edit_item(request, id):
 
 @login_required(login_url='/login')
 def delete_item(request, id):
-    # Get data berdasarkan ID
     item = Item.objects.get(pk = id)
-    # Hapus data
     item.delete()
-    # Kembali ke halaman awal
     return HttpResponseRedirect(reverse('main:main'))
 
 @csrf_exempt
@@ -143,3 +139,23 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+@csrf_exempt
+def create_item_flutter(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+
+        new_item = Item.objects.create(
+            user = request.user,
+            name = data["name"],
+            amount = int(data["amount"]),
+            description = data["description"],
+            deadline = data["deadline"],
+        )
+
+        new_item.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
